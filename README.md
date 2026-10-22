@@ -56,5 +56,6 @@ export default function Layout({ children }) {
 | Path | Contents |
 | --- | --- |
 | `@lemon-squared/signal` | consent core, bridge, GTM helpers, React banner/provider |
-| `@lemon-squared/signal/next` | `SignalGtm`, `sendGTMEvent` |
+| `@lemon-squared/signal/next` | `SignalGtm` (server). Skips the container in `next dev` and on Vercel preview |
+| `@lemon-squared/signal/next-client` | `SignalBridge`, `sendGTMEvent` |
 | `@lemon-squared/signal/react` | React-only entry |

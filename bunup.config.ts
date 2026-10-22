@@ -1,7 +1,12 @@
 import { defineConfig } from "bunup";
 
 export default defineConfig({
-  entry: ["src/index.ts", "src/react/index.ts", "src/next/index.ts"],
+  entry: [
+    "src/index.ts",
+    "src/react/index.ts",
+    "src/next/index.ts",
+    "src/next/client.ts",
+  ],
   outDir: "dist",
   format: "esm",
   target: "browser",
@@ -14,6 +19,7 @@ export default defineConfig({
     "next/script",
     "@next/third-parties",
     /^@next\/third-parties\/.*/,
+    "@lemon-squared/signal/next-client",
   ],
   splitting: false,
   define: {

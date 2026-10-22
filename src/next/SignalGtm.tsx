@@ -6,7 +6,7 @@ import {
   resolveGtmConfig,
   shouldLoadGtm,
 } from "../gtm/resolve";
-import { SignalBridge } from "./SignalBridge";
+import { SignalBridge } from "@lemon-squared/signal/next-client";
 import { SignalConsentDefaults } from "./SignalConsentDefaults";
 
 export interface SignalGtmProps {
