@@ -579,12 +579,15 @@ function resolveGtmConfig(input) {
 function hasGtmConfigured(input) {
   return resolveGtmConfig(input) !== null;
 }
+function runtimeEnv(name) {
+  return process.env[name];
+}
 function shouldLoadGtm() {
-  const vercelEnv = process.env.VERCEL_ENV;
+  const vercelEnv = runtimeEnv("VERCEL_ENV");
   if (vercelEnv === "preview" || vercelEnv === "development") {
     return false;
   }
-  return true;
+  return runtimeEnv("NODE_ENV") !== "development";
 }
 export {
   writeConsent,

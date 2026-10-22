@@ -39,16 +39,24 @@ export function hasGtmConfigured(input: GtmResolveInput): boolean {
 }
 
 /**
+ * Runtime env read. The bundle defines `process.env.NODE_ENV` as
+ * "production", so a direct read is compiled away.
+ */
+function runtimeEnv(name: string): string | undefined {
+  return process.env[name];
+}
+
+/**
  * `next dev` and Vercel preview/dev deployments must not send hits.
  * A production build still loads the container.
  */
 export function shouldLoadGtm(): boolean {
-  const vercelEnv = process.env.VERCEL_ENV;
+  const vercelEnv = runtimeEnv("VERCEL_ENV");
   if (vercelEnv === "preview" || vercelEnv === "development") {
     return false;
   }
 
-  return process.env.NODE_ENV !== "development";
+  return runtimeEnv("NODE_ENV") !== "development";
 }
 
 export { DEFAULT_GTM_SCRIPT_URL };
