@@ -1,6 +1,6 @@
 {
   "name": "@lemon-squared/signal",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "description": "Cookie consent + Google Consent Mode v2 + GTM loader for Lemon Squared sites.",
   "license": "Apache-2.0",
@@ -8,7 +8,7 @@
     "type": "git",
     "url": "git+https://github.com/lemon-squared/signal.git"
   },
-  "homepage": "https://github.com/lemon-squared/signal#readme",
+  "homepage": "https://lemonsquared.co",
   "bugs": "https://github.com/lemon-squared/signal/issues",
   "publishConfig": {
     "access": "public",
