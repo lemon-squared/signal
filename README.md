@@ -1,4 +1,4 @@
-# `@lemonsquared/signal`
+# `@lemon-squared/signal`
 
 Cookie consent banner, Google Consent Mode v2, and the Next.js Google Tag Manager loader for Lemon Squared sites and client projects.
 
@@ -9,7 +9,7 @@ Consent Mode template: [lemon-squared/gtm-template-consent-mode](https://github.
 ## Install
 
 ```bash
-bun add @lemonsquared/signal
+bun add @lemon-squared/signal
 ```
 
 Peer deps for Next apps: `next`, `@next/third-parties`, `react`.
@@ -17,8 +17,8 @@ Peer deps for Next apps: `next`, `@next/third-parties`, `react`.
 ## Next.js App Router
 
 ```tsx
-import { CookieBanner, SignalProvider } from "@lemonsquared/signal";
-import { SignalGtm } from "@lemonsquared/signal/next";
+import { CookieBanner, SignalProvider } from "@lemon-squared/signal";
+import { SignalGtm } from "@lemon-squared/signal/next";
 
 const storage = {
   storageKey: "example-consent",
@@ -55,6 +55,6 @@ export default function Layout({ children }) {
 
 | Path | Contents |
 | --- | --- |
-| `@lemonsquared/signal` | consent core, bridge, GTM helpers, React banner/provider |
-| `@lemonsquared/signal/next` | `SignalGtm`, `sendGTMEvent` |
-| `@lemonsquared/signal/react` | React-only entry |
+| `@lemon-squared/signal` | consent core, bridge, GTM helpers, React banner/provider |
+| `@lemon-squared/signal/next` | `SignalGtm`, `sendGTMEvent` |
+| `@lemon-squared/signal/react` | React-only entry |
