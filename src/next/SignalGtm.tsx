@@ -1,6 +1,7 @@
 import { GoogleTagManager } from "@next/third-parties/google";
 import type { ReactElement } from "react";
 import type { StorageConfig } from "../consent/storage";
+import type { GoogleTagSettings } from "../gtm/resolve";
 import {
   hasGtmConfigured,
   resolveGtmConfig,
@@ -17,6 +18,8 @@ export interface SignalGtmProps {
   auth?: string;
   preview?: string;
   storage?: StorageConfig;
+  /** Google tag cookie domain and content group, set before the container. */
+  tag?: GoogleTagSettings;
 }
 
 /**
@@ -30,6 +33,7 @@ export function SignalGtm({
   auth,
   preview,
   storage,
+  tag,
 }: SignalGtmProps): ReactElement | null {
   if (!hasGtmConfigured({ gtmId, gtmScriptUrl })) {
     return null;
@@ -60,7 +64,7 @@ export function SignalGtm({
 
   return (
     <>
-      <SignalConsentDefaults storage={storage} />
+      <SignalConsentDefaults storage={storage} tag={tag} />
       <SignalBridge storage={storage} />
       {container}
     </>

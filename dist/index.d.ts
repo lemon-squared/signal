@@ -103,28 +103,14 @@ declare const CONSENT_COOKIE_MAX_AGE_SECONDS: number;
 declare const CONSENT_DENIED_REGIONS: readonly string[];
 /** Consent types denied by default in CONSENT_DENIED_REGIONS. */
 declare const REGION_DENIED_TYPES: readonly ["ad_storage", "ad_user_data", "ad_personalization", "analytics_storage", "personalization_storage"];
-/**
-* Inline JS that must run before GTM (Consent Initialization).
-*
-* 1. Installs Google's sample-style listener stub (`LemonSignalAddConsentListener`)
-*    so the GTM Consent API template can `callInWindow` before React hydrates.
-* 2. Sets Consent Mode defaults (GB+EEA denied) + restores prior Accept.
-*    Prefer the GTM template's setDefaultConsentState as source of truth once
-*    published; these gtag defaults remain as a safety net.
-*/
-declare function buildConsentBootstrapScript(config?: StorageConfig): string;
-declare function consentToGoogleState(consent: SignalConsent): ConsentState;
-declare function consentToCookiePayload(consent: SignalConsent): SignalConsentCookiePayload;
-/** Denied defaults for advanced Consent Mode (before choice). */
-declare const DENIED_OPTIONAL: ConsentState;
-declare const GRANTED_ALL: ConsentState;
-/**
-* Parent domain for a shared consent cookie (`Domain=`).
-* Unset means host-only. Never apply on localhost or Vercel previews,
-* and never when the current host is outside the configured parent.
-*/
-declare function resolveCookieDomain(cookieDomain: string | undefined, hostname: string): string | undefined;
 declare const DEFAULT_GTM_SCRIPT_URL = "https://www.googletagmanager.com/gtm.js";
+/** Values set before the container so the Google tag can share a client id. */
+interface GoogleTagSettings {
+	/** `cookie_domain` without a leading dot, for example `runur.co.uk`. */
+	cookieDomain?: string;
+	/** GA4 content group for this host, for example `shop`. */
+	contentGroup?: string;
+}
 interface GtmResolveInput {
 	gtmId?: string;
 	/** First-party / ssGTM script URL (Next `gtmScriptUrl`). */
@@ -144,4 +130,25 @@ declare function hasGtmConfigured(input: GtmResolveInput): boolean;
 * A production build still loads the container.
 */
 declare function shouldLoadGtm(): boolean;
-export { writeConsent, useSignalStorage, shouldLoadGtm, resolveGtmConfig, resolveCookieDomain, readConsent, openConsentPreferences, installLemonSignalBridge, hasGtmConfigured, defaultConsent, consentToGoogleState, consentToCookiePayload, clearConsent, buildConsentBootstrapScript, StorageConfig, SignalProviderProps, SignalProvider, SignalConsentOptions, SignalConsentCookiePayload, SignalConsent, SIGNAL_CONSENT_VERSION, SIGNAL_CONSENT_OPEN_EVENT, SIGNAL_CONSENT_CHANGED_EVENT, ResolvedGtm, REGION_DENIED_TYPES, LemonSignalBridge, GtmResolveInput, GRANTED_ALL, DENIED_OPTIONAL, DEFAULT_STORAGE_KEY, DEFAULT_GTM_SCRIPT_URL, DEFAULT_COOKIE_NAME, CookieBannerProps, CookieBannerCopy, CookieBanner, ConsentValue, ConsentType, ConsentState, ConsentListener, CONSENT_DENIED_REGIONS, CONSENT_COOKIE_MAX_AGE_SECONDS };
+/**
+* Inline JS that must run before GTM (Consent Initialization).
+*
+* 1. Installs Google's sample-style listener stub (`LemonSignalAddConsentListener`)
+*    so the GTM Consent API template can `callInWindow` before React hydrates.
+* 2. Sets Consent Mode defaults (GB+EEA denied) + restores prior Accept.
+*    Prefer the GTM template's setDefaultConsentState as source of truth once
+*    published; these gtag defaults remain as a safety net.
+*/
+declare function buildConsentBootstrapScript(config?: StorageConfig, tag?: GoogleTagSettings): string;
+declare function consentToGoogleState(consent: SignalConsent): ConsentState;
+declare function consentToCookiePayload(consent: SignalConsent): SignalConsentCookiePayload;
+/** Denied defaults for advanced Consent Mode (before choice). */
+declare const DENIED_OPTIONAL: ConsentState;
+declare const GRANTED_ALL: ConsentState;
+/**
+* Parent domain for a shared consent cookie (`Domain=`).
+* Unset means host-only. Never apply on localhost or Vercel previews,
+* and never when the current host is outside the configured parent.
+*/
+declare function resolveCookieDomain(cookieDomain: string | undefined, hostname: string): string | undefined;
+export { writeConsent, useSignalStorage, shouldLoadGtm, resolveGtmConfig, resolveCookieDomain, readConsent, openConsentPreferences, installLemonSignalBridge, hasGtmConfigured, defaultConsent, consentToGoogleState, consentToCookiePayload, clearConsent, buildConsentBootstrapScript, StorageConfig, SignalProviderProps, SignalProvider, SignalConsentOptions, SignalConsentCookiePayload, SignalConsent, SIGNAL_CONSENT_VERSION, SIGNAL_CONSENT_OPEN_EVENT, SIGNAL_CONSENT_CHANGED_EVENT, ResolvedGtm, REGION_DENIED_TYPES, LemonSignalBridge, GtmResolveInput, GoogleTagSettings, GRANTED_ALL, DENIED_OPTIONAL, DEFAULT_STORAGE_KEY, DEFAULT_GTM_SCRIPT_URL, DEFAULT_COOKIE_NAME, CookieBannerProps, CookieBannerCopy, CookieBanner, ConsentValue, ConsentType, ConsentState, ConsentListener, CONSENT_DENIED_REGIONS, CONSENT_COOKIE_MAX_AGE_SECONDS };

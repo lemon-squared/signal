@@ -1,6 +1,14 @@
 const DEFAULT_GTM_SCRIPT_URL =
   "https://www.googletagmanager.com/gtm.js";
 
+/** Values set before the container so the Google tag can share a client id. */
+export interface GoogleTagSettings {
+  /** `cookie_domain` without a leading dot, for example `runur.co.uk`. */
+  cookieDomain?: string;
+  /** GA4 content group for this host, for example `shop`. */
+  contentGroup?: string;
+}
+
 export interface GtmResolveInput {
   gtmId?: string;
   /** First-party / ssGTM script URL (Next `gtmScriptUrl`). */

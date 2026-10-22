@@ -3,6 +3,7 @@ export {
   hasGtmConfigured,
   resolveGtmConfig,
   shouldLoadGtm,
+  type GoogleTagSettings,
   type GtmResolveInput,
   type ResolvedGtm,
 } from "./resolve";

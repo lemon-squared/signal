@@ -48,6 +48,7 @@ export default function Layout({ children }) {
 
 - Do not also mount `@next/third-parties` `GoogleAnalytics` when GTM is present. Fire GA4 from a tag inside the container.
 - `cookieDomain` shares the consent cookie across subdomains of that parent. Omit it for a host-only cookie. It is ignored on `localhost` and `*.vercel.app`.
+- `tag.cookieDomain` is the Google tag `cookie_domain` (no leading dot). `tag.contentGroup` is the GA4 content group. Both are set before the container. The cookie domain is skipped on `localhost` and `*.vercel.app`.
 - `SignalGtm` does not load the container during `next dev` or on Vercel preview deployments. Production builds still load it.
 - ssGTM: pass the first-party `gtm.js` URL as `gtmScriptUrl`.
 

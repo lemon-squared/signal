@@ -52,11 +52,13 @@ var REGION_DENIED_TYPES = [
 ];
 
 // src/consent/bootstrap.ts
-function buildConsentBootstrapScript(config = {}) {
+function buildConsentBootstrapScript(config = {}, tag = {}) {
   const storageKey = config.storageKey ?? DEFAULT_STORAGE_KEY;
   const cookieName = config.cookieName ?? DEFAULT_COOKIE_NAME;
   const version = config.version ?? SIGNAL_CONSENT_VERSION;
   const regions = JSON.stringify([...CONSENT_DENIED_REGIONS]);
+  const tagCookieDomain = JSON.stringify((tag.cookieDomain ?? "").trim().replace(/^\./, ""));
+  const contentGroup = JSON.stringify((tag.contentGroup ?? "").trim());
   return `
 (function(){
   var listeners = window.__lemonSignalConsentListeners = window.__lemonSignalConsentListeners || [];
@@ -74,6 +76,23 @@ function buildConsentBootstrapScript(config = {}) {
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   window.gtag = window.gtag || gtag;
+
+  var tagCookieDomain = ${tagCookieDomain};
+  var contentGroup = ${contentGroup};
+  if (contentGroup) {
+    gtag('set', 'content_group', contentGroup);
+    window.dataLayer.push({ content_group: contentGroup });
+  }
+  if (tagCookieDomain && tagCookieDomain.indexOf('.') !== -1) {
+    var host = String(location.hostname || '').replace(/\\.$/, '').toLowerCase();
+    var parent = tagCookieDomain.toLowerCase();
+    var blocked = host === 'localhost' || host.endsWith('.localhost') || host === '127.0.0.1' || host === '::1' || host === '[::1]' || host === 'vercel.app' || host.endsWith('.vercel.app') || parent === 'localhost' || parent.endsWith('.vercel.app');
+    var onParent = host === parent || host.endsWith('.' + parent);
+    if (!blocked && onParent) {
+      gtag('set', 'cookie_domain', parent);
+      window.dataLayer.push({ cookie_domain: parent });
+    }
+  }
 
   gtag('consent', 'default', {
     ad_personalization: 'granted',
@@ -158,12 +177,13 @@ function buildConsentBootstrapScript(config = {}) {
 // src/next/SignalConsentDefaults.tsx
 import { jsx } from "react/jsx-runtime";
 function SignalConsentDefaults({
-  storage
+  storage,
+  tag
 }) {
   return /* @__PURE__ */ jsx(Script, {
     id: "lemon-signal-consent-default",
     strategy: "beforeInteractive",
-    children: buildConsentBootstrapScript(storage)
+    children: buildConsentBootstrapScript(storage, tag)
   });
 }
 // src/next/SignalGtm.tsx
@@ -205,7 +225,8 @@ function SignalGtm({
   dataLayerName,
   auth,
   preview,
-  storage
+  storage,
+  tag
 }) {
   if (!hasGtmConfigured({ gtmId, gtmScriptUrl })) {
     return null;
@@ -233,7 +254,8 @@ function SignalGtm({
   return /* @__PURE__ */ jsxs(Fragment, {
     children: [
       /* @__PURE__ */ jsx2(SignalConsentDefaults, {
-        storage
+        storage,
+        tag
       }),
       /* @__PURE__ */ jsx2(SignalBridge, {
         storage
