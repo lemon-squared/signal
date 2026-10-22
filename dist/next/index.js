@@ -501,6 +501,13 @@ function resolveGtmConfig(input) {
 function hasGtmConfigured(input) {
   return resolveGtmConfig(input) !== null;
 }
+function shouldLoadGtm() {
+  const vercelEnv = process.env.VERCEL_ENV;
+  if (vercelEnv === "preview" || vercelEnv === "development") {
+    return false;
+  }
+  return true;
+}
 
 // src/next/SignalGtm.tsx
 import { jsx as jsx2, jsxs, Fragment } from "react/jsx-runtime";
@@ -524,6 +531,17 @@ function SignalGtm({
     dataLayerName,
     preview
   };
+  let container = null;
+  if (shouldLoadGtm()) {
+    container = resolved.gtmScriptUrl ? /* @__PURE__ */ jsx2(GoogleTagManager, {
+      ...shared,
+      gtmId: resolved.gtmId || undefined,
+      gtmScriptUrl: resolved.gtmScriptUrl
+    }) : /* @__PURE__ */ jsx2(GoogleTagManager, {
+      ...shared,
+      gtmId: resolved.gtmId
+    });
+  }
   return /* @__PURE__ */ jsxs(Fragment, {
     children: [
       /* @__PURE__ */ jsx2(SignalConsentDefaults, {
@@ -532,14 +550,7 @@ function SignalGtm({
       /* @__PURE__ */ jsx2(SignalBridge, {
         storage
       }),
-      resolved.gtmScriptUrl ? /* @__PURE__ */ jsx2(GoogleTagManager, {
-        ...shared,
-        gtmId: resolved.gtmId || undefined,
-        gtmScriptUrl: resolved.gtmScriptUrl
-      }) : /* @__PURE__ */ jsx2(GoogleTagManager, {
-        ...shared,
-        gtmId: resolved.gtmId
-      })
+      container
     ]
   });
 }

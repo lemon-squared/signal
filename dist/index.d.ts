@@ -139,4 +139,9 @@ interface ResolvedGtm {
 */
 declare function resolveGtmConfig(input: GtmResolveInput): ResolvedGtm | null;
 declare function hasGtmConfigured(input: GtmResolveInput): boolean;
-export { writeConsent, useSignalStorage, resolveGtmConfig, resolveCookieDomain, readConsent, openConsentPreferences, installLemonSignalBridge, hasGtmConfigured, defaultConsent, consentToGoogleState, consentToCookiePayload, clearConsent, buildConsentBootstrapScript, StorageConfig, SignalProviderProps, SignalProvider, SignalConsentOptions, SignalConsentCookiePayload, SignalConsent, SIGNAL_CONSENT_VERSION, SIGNAL_CONSENT_OPEN_EVENT, SIGNAL_CONSENT_CHANGED_EVENT, ResolvedGtm, REGION_DENIED_TYPES, LemonSignalBridge, GtmResolveInput, GRANTED_ALL, DENIED_OPTIONAL, DEFAULT_STORAGE_KEY, DEFAULT_GTM_SCRIPT_URL, DEFAULT_COOKIE_NAME, CookieBannerProps, CookieBannerCopy, CookieBanner, ConsentValue, ConsentType, ConsentState, ConsentListener, CONSENT_DENIED_REGIONS, CONSENT_COOKIE_MAX_AGE_SECONDS };
+/**
+* `next dev` and Vercel preview/dev deployments must not send hits.
+* A production build still loads the container.
+*/
+declare function shouldLoadGtm(): boolean;
+export { writeConsent, useSignalStorage, shouldLoadGtm, resolveGtmConfig, resolveCookieDomain, readConsent, openConsentPreferences, installLemonSignalBridge, hasGtmConfigured, defaultConsent, consentToGoogleState, consentToCookiePayload, clearConsent, buildConsentBootstrapScript, StorageConfig, SignalProviderProps, SignalProvider, SignalConsentOptions, SignalConsentCookiePayload, SignalConsent, SIGNAL_CONSENT_VERSION, SIGNAL_CONSENT_OPEN_EVENT, SIGNAL_CONSENT_CHANGED_EVENT, ResolvedGtm, REGION_DENIED_TYPES, LemonSignalBridge, GtmResolveInput, GRANTED_ALL, DENIED_OPTIONAL, DEFAULT_STORAGE_KEY, DEFAULT_GTM_SCRIPT_URL, DEFAULT_COOKIE_NAME, CookieBannerProps, CookieBannerCopy, CookieBanner, ConsentValue, ConsentType, ConsentState, ConsentListener, CONSENT_DENIED_REGIONS, CONSENT_COOKIE_MAX_AGE_SECONDS };

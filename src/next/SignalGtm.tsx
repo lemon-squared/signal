@@ -1,7 +1,11 @@
 import { GoogleTagManager } from "@next/third-parties/google";
 import type { ReactElement } from "react";
 import type { StorageConfig } from "../consent/storage";
-import { hasGtmConfigured, resolveGtmConfig } from "../gtm/resolve";
+import {
+  hasGtmConfigured,
+  resolveGtmConfig,
+  shouldLoadGtm,
+} from "../gtm/resolve";
 import { SignalBridge } from "./SignalBridge";
 import { SignalConsentDefaults } from "./SignalConsentDefaults";
 
@@ -41,20 +45,24 @@ export function SignalGtm({
     dataLayerName,
     preview,
   };
+  let container: ReactElement | null = null;
+  if (shouldLoadGtm()) {
+    container = resolved.gtmScriptUrl ? (
+      <GoogleTagManager
+        {...shared}
+        gtmId={resolved.gtmId || undefined}
+        gtmScriptUrl={resolved.gtmScriptUrl}
+      />
+    ) : (
+      <GoogleTagManager {...shared} gtmId={resolved.gtmId} />
+    );
+  }
 
   return (
     <>
       <SignalConsentDefaults storage={storage} />
       <SignalBridge storage={storage} />
-      {resolved.gtmScriptUrl ? (
-        <GoogleTagManager
-          {...shared}
-          gtmId={resolved.gtmId || undefined}
-          gtmScriptUrl={resolved.gtmScriptUrl}
-        />
-      ) : (
-        <GoogleTagManager {...shared} gtmId={resolved.gtmId} />
-      )}
+      {container}
     </>
   );
 }

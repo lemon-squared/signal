@@ -579,9 +579,17 @@ function resolveGtmConfig(input) {
 function hasGtmConfigured(input) {
   return resolveGtmConfig(input) !== null;
 }
+function shouldLoadGtm() {
+  const vercelEnv = process.env.VERCEL_ENV;
+  if (vercelEnv === "preview" || vercelEnv === "development") {
+    return false;
+  }
+  return true;
+}
 export {
   writeConsent,
   useSignalStorage,
+  shouldLoadGtm,
   resolveGtmConfig,
   resolveCookieDomain,
   readConsent,

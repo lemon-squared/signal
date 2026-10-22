@@ -38,4 +38,17 @@ export function hasGtmConfigured(input: GtmResolveInput): boolean {
   return resolveGtmConfig(input) !== null;
 }
 
+/**
+ * `next dev` and Vercel preview/dev deployments must not send hits.
+ * A production build still loads the container.
+ */
+export function shouldLoadGtm(): boolean {
+  const vercelEnv = process.env.VERCEL_ENV;
+  if (vercelEnv === "preview" || vercelEnv === "development") {
+    return false;
+  }
+
+  return process.env.NODE_ENV !== "development";
+}
+
 export { DEFAULT_GTM_SCRIPT_URL };
