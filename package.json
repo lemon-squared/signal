@@ -1,5 +1,5 @@
 {
-  "name": "@lemon-squared/signal",
+  "name": "@lemonsquared/signal",
   "version": "0.1.0",
   "type": "module",
   "description": "Cookie consent + Google Consent Mode v2 + GTM loader for Lemon Squared sites.",
