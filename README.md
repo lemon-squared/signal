@@ -9,7 +9,7 @@ Consent Mode template: [lemon-squared/gtm-template-consent-mode](https://github.
 ## Install
 
 ```bash
-bun add github:lemon-squared/signal
+bun add @lemon-squared/signal
 ```
 
 Peer deps for Next apps: `next`, `@next/third-parties`, `react`.
